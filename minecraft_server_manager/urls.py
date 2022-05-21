@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('minecraft_server_manager.apps.server_manager.urls'))
+    path('auth/', include('minecraft_server_manager.apps.user.urls')),
+    path('', include('minecraft_server_manager.apps.server_manager.urls')),
 ]
