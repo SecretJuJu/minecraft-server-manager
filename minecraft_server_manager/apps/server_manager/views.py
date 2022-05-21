@@ -4,4 +4,4 @@ from django.shortcuts import render, HttpResponse
 # Create your views here.
 
 def index(request):
-    return HttpResponse('hello this is server manager page')
+    return render(request=request, template_name='server_manager/list.html')
