@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
+
+{% load bootstrap4 %}
 {% block body %}
 
-<form action="" method="POST">
-    test
-</form>
+<form method="POST" action="/server_manager/create" enctype="multipart/form-data">
 
+    {% csrf_token %}
+    {% bootstrap_form map_upload_form %}
+    <input type="submit" class="btn btn-primary col-12" value="제출">
+</form>
 
 {% endblock %}
