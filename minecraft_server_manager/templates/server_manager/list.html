@@ -1,22 +1,90 @@
 {% extends 'base.html' %}
 
+
+
 {% block body %}
 
-<form action="" method="POST">
-    <ul>
-        <li>
+<style>
+    .server-status-running {
+           background-color: green;
+    }
+
+    .server-status-stopped {
+           background-color: red;
+    }
+
+</style>
+
+<ul>
+    {% for server in servers %}
+    <li>
+        <div>
             <div>
-                <label for="server-1-name">서버 이름</label> <h4 id="server-1-name">새로운 세계</h4>
-                <label for="server-1-version"></label> <em id="server-1-version">1.19.0</em>
+                <label for="server-{{server.id}}-name">서버 이름</label>
+                <h4 id="server-{{server.id}}-name" class="server-name">{{server.title}}</h4>
             </div>
-        </li>
-    </ul>
 
-    <div>
-        <a href="/server_manager/create">서버 추가하기</a>
-    </div>
+            <div>
+                <label for="server-{{server.id}}-version">버전</label>
+                <em id="server-{{server.id}}-version" class="server-version">{{server.version}}</em>
+            </div>
 
-</form>
+            <div>
+                <label for="server-{{server.id}}-status">상태</label>
+                <button id="server-{{server.id}}-status" class="server-status"
+                        data-server-id="{{server.id}}" value="{{server.is_server_running}}">
+                </button>
+            </div>
+
+        </div>
+    </li>
+    {% endfor %}
+
+</ul>
+
+<div>
+    <a href="/server_manager/create">서버 추가하기</a>
+</div>
+
+<script>
+
+    const serverStatusButtons = document.querySelectorAll('.server-status');
+    serverStatusButtons.forEach(element => {
+        if (element.value === 'true') {
+            element.classList.add('server-status-running');
+            element.innerText = 'ON';
+        } else {
+            element.classList.add('server-status-stopped');
+            element.innerText = 'OFF';
+        }
+    });
+
+    serverStatusButtons.forEach(element => {
+        const serverId = Number(element.dataset.serverId);
+        const serverStatus = element.value === 'true';
+        element.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const payload = {
+                serverId: serverId,
+                serverStatus: !serverStatus
+            }
+
+            // TODO: 위 payload를 이용하여 서버를 껏다 켰다 할 수 있어야 한다.
+
+            console.log(payload)
+        })
+    })
+
+    function handleServerStatusClick(e, serverId, statusTo) {
+        e.preventDefault();
+        console.log(e, serverId, statusTo);
+    }
+
+// (e) => {handleServerStatusClick(e, {{server.id}}, !boolean({{server.is_server_running}}))}
+
+
+</script>
 
 
 {% endblock %}

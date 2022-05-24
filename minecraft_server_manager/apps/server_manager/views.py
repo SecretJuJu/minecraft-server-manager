@@ -8,7 +8,13 @@ from minecraft_server_manager.apps.server_manager.models import ServerManager
 
 @login_required
 def index(request):
-    return render(request=request, template_name='server_manager/list.html')
+    servers = ServerManager.objects.all()
+
+    context = {
+        'servers': servers,
+    }
+
+    return render(request=request, template_name='server_manager/list.html', context=context)
 
 
 @login_required
